@@ -4,6 +4,7 @@ import com.samyak.api.util.AuditableEntity;
 import com.samyak.api.util.enums.IssuePriority;
 import com.samyak.api.util.enums.IssueStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Issue extends AuditableEntity {
 
     @Id
