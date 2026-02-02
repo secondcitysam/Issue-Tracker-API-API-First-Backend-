@@ -2,52 +2,41 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven-3.9'
-        jdk 'JDK-17'
-    }
-
-    environment {
-        APP_NAME = "issue-tracker-api"
-        JAR_PATH = "target/api-0.0.1-SNAPSHOT.jar"
+        maven 'maven-3'
+        jdk 'jdk-17'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Checking out source code from GitHub...'
                 checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building project using Maven...'
                 sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
                 sh 'mvn test'
             }
         }
 
         stage('Package') {
             steps {
-                echo 'Packaging application...'
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-
                 sh '''
-                pkill -f issue-tracker-api || true
-                nohup java -jar ${JAR_PATH} > app.log 2>&1 &
+                pkill -f api || true
+                nohup java -jar target/api-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
                 '''
             }
         }
@@ -55,10 +44,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ CI/CD pipeline completed successfully'
+            echo 'CI/CD pipeline completed successfully'
         }
         failure {
-            echo '❌ CI/CD pipeline failed'
+            echo 'CI/CD pipeline failed'
         }
     }
 }
